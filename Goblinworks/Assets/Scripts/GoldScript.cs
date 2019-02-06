@@ -8,7 +8,8 @@ public class GoldScript : MonoBehaviour
     private int gold = 0;
     private float timer;
     [SerializeField]
-    Text goldText;
+    Text goldText = null;
+    //TODO - convert this to use TMPro
     // Start is called before the first frame update
     void Start()
     {

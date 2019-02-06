@@ -10,7 +10,7 @@ public class PlaceTowerScript : MonoBehaviour
     private Color originalColor;
 
     [SerializeField]
-    private GameObject tower;
+    private GameObject tower = null;
     private GameObject ownTower = null;
 
     private Material objectMaterial;

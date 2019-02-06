@@ -5,9 +5,9 @@ using UnityEngine;
 public class TowerButtonScript : MonoBehaviour
 {
     [SerializeField]
-    float Y_buildlocation;
+    float Y_buildlocation = 0f;
     [SerializeField]
-    GameObject towerFab;
+    GameObject towerFab = null;
     Camera cam;
     bool active = false;
     // Start is called before the first frame update

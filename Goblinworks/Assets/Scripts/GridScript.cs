@@ -7,10 +7,10 @@ public class GridScript : MonoBehaviour
     [SerializeField]
     private int gridWidth = 10, gridHeight = 10;
     [SerializeField]
-    private GameObject tilePrefab;
+    private GameObject tilePrefab = null;
     private float prefabWidth = 1, prefabHeight = 1;
     [SerializeField]
-    private GameObject wallPrefab;
+    private GameObject wallPrefab = null;
 
     private GameObject[,] grid;
     // Start is called before the first frame update
