@@ -34,6 +34,8 @@ public class BaseScript : MonoBehaviour
     public List<GoblinScript> mGoblins;
 
     float mTimer = 0f;
+    //This is used to stop the timer from executing multiple times in a 10th of a second
+    int lastTime = -1;
     //Goblin creation queue
     int numPregnantGoblins;
     // Start is called before the first frame update
@@ -51,11 +53,15 @@ public class BaseScript : MonoBehaviour
 
     void timer()
     {
-        //TODO - stop timer from executing multiple times per 10th of a second
+        
         mTimer += Time.deltaTime;
         int timeDivision = 10; // time = seconds / timeDivision;
         int time = (int)(mTimer * timeDivision);
-        Debug.Log(time);
+
+        //stop timer from executing multiple times per 10th of a second
+        if (time == lastTime)
+            return;
+        lastTime = time;
         int shouldReset = 0; //tracks if can reset time.
         if(time % goblinProcreationRate == 0)
         {
@@ -64,7 +70,6 @@ public class BaseScript : MonoBehaviour
         }
         if(time % goldGenRate == 0)
         {
-            Debug.Log("added gold");
             addGold(1);
             shouldReset++;
         }
