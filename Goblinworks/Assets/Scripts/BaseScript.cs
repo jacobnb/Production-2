@@ -18,7 +18,10 @@ public class BaseScript : MonoBehaviour
     int goblinCost = 5;
     [SerializeField]
     float goblinUpkeepPerSecond = .1f;
-    
+    [SerializeField]
+    Vector3 goblinSpawnPosition = new Vector3(1.0f, 1.0f, 1.0f);
+    [SerializeField]
+    GameObject GoblinFab = null;
 
     //Passive income, disable later.
     [Header("how many tenths of a second it takes to gain 1 of x")]
@@ -85,7 +88,11 @@ public class BaseScript : MonoBehaviour
         }
         if(shouldReset >= 4) //number of if statements
         {
+            //This might cause everything to trigger twice
             mTimer = 0f;
+
+            //this should prevent that
+            lastTime = 0;
         }
     }
 
@@ -110,8 +117,9 @@ public class BaseScript : MonoBehaviour
 
     GoblinScript goblinConstructor()
     {
-        //TODO
-        return null;
+        GameObject babyGoblin = Instantiate(GoblinFab);
+        babyGoblin.transform.position = goblinSpawnPosition;
+        return babyGoblin.GetComponent<GoblinScript>();
     }
 
     public bool spendGold(float gold, string purchaseName)
