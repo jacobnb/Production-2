@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 public class BaseScript : MonoBehaviour
 {
     /*
@@ -23,6 +23,9 @@ public class BaseScript : MonoBehaviour
     Vector3 goblinSpawnPosition = new Vector3(1.0f, 1.0f, 1.0f);
     [SerializeField]
     GameObject GoblinFab = null;
+    [Header("")]
+    [SerializeField]
+    TextMeshProUGUI goldText = null;
 
     //Passive income, disable later.
     [Header("how many tenths of a second it takes to gain 1 of x")]
@@ -43,7 +46,6 @@ public class BaseScript : MonoBehaviour
     //Goblin creation queue
     int numPregnantGoblins;
     //how long until the next goblin spawns.
-    [SerializeField]
     float goblinBirthTimer;
     // Start is called before the first frame update
     void Start()
@@ -140,19 +142,24 @@ public class BaseScript : MonoBehaviour
             return false;
         }
         //TODO purchase logging 
-        //update gold text
         //Debug.Log("Spent " + gold + " gold on " + purchaseName);
         mGold -= gold;
+        updateGoldUI();
         return true;
     }
     public void addGold(float gold)
     {
-        //TODO update gold text
         mGold += gold;
+        updateGoldUI();
     }
 
     public void addRune(Rune rune)
     {
         mRunes.Add(rune);
+    }
+
+    void updateGoldUI()
+    {
+        goldText.text = "Gold: " + (int)mGold;
     }
 }
