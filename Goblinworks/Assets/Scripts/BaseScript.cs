@@ -10,6 +10,7 @@ public class BaseScript : MonoBehaviour
 	* Goblin Training
     * Might have external upgrade building
     */
+    int timeDivision = 10; // time = seconds / timeDivision;
     [Header("Goblin Spawn Info")]
     [SerializeField]
     [Tooltip("How many 10ths of a second it takes for a new goblin to spawn")]
@@ -41,24 +42,29 @@ public class BaseScript : MonoBehaviour
     int lastTime = -1;
     //Goblin creation queue
     int numPregnantGoblins;
+    //how long until the next goblin spawns.
+    [SerializeField]
+    float goblinBirthTimer;
     // Start is called before the first frame update
     void Start()
     {
         numPregnantGoblins = 2;
         mRunes = new List<Rune>();
         mGoblins = new List<GoblinScript>();
+        goblinBirthTimer = goblinProcreationRate;
     }
 
     void Update()
     {
         timer();
+        goblinGestation();
     }
 
     void timer()
     {
         
         mTimer += Time.deltaTime;
-        int timeDivision = 10; // time = seconds / timeDivision;
+        
         int time = (int)(mTimer * timeDivision);
 
         //stop timer from executing multiple times per 10th of a second
@@ -66,11 +72,6 @@ public class BaseScript : MonoBehaviour
             return;
         lastTime = time;
         int shouldReset = 0; //tracks if can reset time.
-        if(time % goblinProcreationRate == 0)
-        {
-            makeGoblin();
-            shouldReset++;
-        }
         if(time % goldGenRate == 0)
         {
             addGold(1);
@@ -83,16 +84,29 @@ public class BaseScript : MonoBehaviour
         }
         if (time % timeDivision == 0)
         { //every second
-            spendGold(goblinUpkeepPerSecond, "Goblin Upkeep");
+            spendGold(goblinUpkeepPerSecond * mGoblins.Count, "Goblin Upkeep");
             shouldReset++;
         }
-        if(shouldReset >= 4) //number of if statements
+        if(shouldReset >= 3) //number of if statements
         {
             //This might cause everything to trigger twice
             mTimer = 0f;
 
             //this should prevent that
             lastTime = 0;
+        }
+    }
+    void goblinGestation()
+    {
+        if(numPregnantGoblins > 0)
+        {
+            //make goblins
+            goblinBirthTimer -= Time.deltaTime * timeDivision;
+            if(goblinBirthTimer <= 0)
+            {
+                makeGoblin();
+                goblinBirthTimer = goblinProcreationRate;
+            }
         }
     }
 
@@ -107,12 +121,9 @@ public class BaseScript : MonoBehaviour
         spendGold(numGoblins * goblinCost, msg);
     }
     void makeGoblin()
-    { //if there's a pregnant goblin, make a goblin
-        if(numPregnantGoblins > 0)
-        {
-            numPregnantGoblins--;
-            mGoblins.Add(goblinConstructor());
-        }
+    { 
+        numPregnantGoblins--;
+        mGoblins.Add(goblinConstructor());
     }
 
     GoblinScript goblinConstructor()
