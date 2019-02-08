@@ -40,7 +40,7 @@ public class GridScript : MonoBehaviour
         // find center and set the camera and powersource
         // change cause this is hacky af
         Vector2 center = new Vector2((gridWidth / 2) * prefabWidth, (gridHeight / 2) * prefabHeight);
-        Camera.main.transform.position = new Vector3(center.x - .5f, 10, center.y - .5f);
+        Camera.main.transform.position = new Vector3(center.x, 10, center.y - 4f);
         GameObject.Find("PowerSource").transform.position = grid[gridWidth / 2 - 4, gridHeight / 2].transform.position + new Vector3(0.0f, 0.5f, 0.0f);
     }
 
