@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class EnemyScript : MonoBehaviour
 {
+    Rigidbody rb;
+
+    private void Awake()
+    {
+        rb = gameObject.GetComponent<Rigidbody>();
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +20,11 @@ public class EnemyScript : MonoBehaviour
     void Update()
     {
         
+    }
+    
+    public void initPost(Vector3 position)
+    {
+        transform.position = position;
+        rb.velocity = Vector3.zero;
     }
 }
