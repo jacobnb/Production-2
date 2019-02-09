@@ -10,26 +10,24 @@ public class PlaceTowerScript : MonoBehaviour
     private Color originalColor;
 
     [SerializeField]
-    private GameObject tower;
+    private GameObject tower = null;
     private GameObject ownTower = null;
+
+    [SerializeField]
+    float costOfTower = 5f;
 
     private Material objectMaterial;
 
-    [SerializeField]
-    [Tooltip("This doesn't need to be set")]
-    GameObject goldObject;
+    BaseScript baseScript = null;
     // Start is called before the first frame update
     void Start()
     {
         objectMaterial = GetComponent<Renderer>().material;
         originalColor = objectMaterial.color;
+        baseScript = GameObject.Find("Base").GetComponent<BaseScript>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        goldObject = GameObject.Find("GoldText");
-    }
+
 
     private void OnMouseEnter()
     {
@@ -41,12 +39,11 @@ public class PlaceTowerScript : MonoBehaviour
         // 0 is left, 1 right, 2 middle
         if(Input.GetMouseButtonDown(0))
         {
-            if(ownTower == null && transform.childCount == 0 && goldObject.GetComponent<GoldScript>().GetGold() >= 5)
+            if (ownTower == null && transform.childCount == 0 && baseScript.spendGold(costOfTower, "Tower"))
             {
                 ownTower = Instantiate(tower, gameObject.transform);
                 ownTower.transform.Rotate(90, 0, 0);
                 ownTower.transform.Translate(new Vector3(0.0f, -1.0f, 0.0f));
-                goldObject.GetComponent<GoldScript>().ChangeGold(-5);
             }
         }
     }
