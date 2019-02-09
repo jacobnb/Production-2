@@ -36,7 +36,7 @@ public class BaseScript : MonoBehaviour
 
     [Header("Displays for debugging")]
     //Resource tracking.
-    public List<Rune> mRunes; //move this to a rune tracker class
+    RuneHopper mRuneHopper;
     public float mGold;
     public List<GoblinScript> mGoblins;
 
@@ -51,7 +51,7 @@ public class BaseScript : MonoBehaviour
     void Start()
     {
         numPregnantGoblins = 2;
-        mRunes = new List<Rune>();
+        mRuneHopper = gameObject.GetComponent<RuneHopper>();
         mGoblins = new List<GoblinScript>();
         goblinBirthTimer = goblinProcreationRate;
     }
@@ -155,7 +155,7 @@ public class BaseScript : MonoBehaviour
 
     public void addRune(Rune rune)
     {
-        mRunes.Add(rune);
+        mRuneHopper.addRune(rune);
     }
 
     void updateGoldUI()

@@ -52,7 +52,6 @@ public class EnemySpawnScript : MonoBehaviour
     {
         Vector3 spawnPosit = enemySpawnPosit;
         spawnPosit.z = Random.Range(enemySpawnPosit.z - spawnMaxZOffset, enemySpawnPosit.z + spawnMaxZOffset);
-        Debug.Log(spawnPosit.z);
         return spawnPosit;
     }
 }
