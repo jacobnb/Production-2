@@ -17,7 +17,6 @@ public class PlaceTowerScript : MonoBehaviour
     float costOfTower = 5f;
 
     private Material objectMaterial;
-
     BaseScript baseScript = null;
     // Start is called before the first frame update
     void Start()

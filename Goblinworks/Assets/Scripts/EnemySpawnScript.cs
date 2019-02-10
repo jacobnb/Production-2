@@ -17,9 +17,12 @@ public class EnemySpawnScript : MonoBehaviour
     Vector3 enemySpawnPosit;
     float timer = 0f;
 
+    Transform enemyFolder = null;
+
     // Start is called before the first frame update
     void Start()
     {
+        enemyFolder = new GameObject("Enemy Folder").transform;
         enemies = new List<EnemyScript>();
         enemySpawnPosit = transform.position;
     }
@@ -42,7 +45,7 @@ public class EnemySpawnScript : MonoBehaviour
 
     void spawnEnemy()
     {
-        GameObject enemy = Instantiate(enemyFab);
+        GameObject enemy = Instantiate(enemyFab, enemyFolder);
         EnemyScript es = enemy.GetComponent<EnemyScript>();
         es.initPost(getEnemySpawnposit());
         enemies.Add(es);
