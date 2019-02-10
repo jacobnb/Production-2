@@ -5,21 +5,60 @@ using UnityEngine;
 public class TowerScript : MonoBehaviour
 {
     [SerializeField]
-    float towerRange;
+    float towerRange = 5f;
     [SerializeField]
     float health;
+    [SerializeField]
+    [Tooltip("Time between shots in seconds")]
+    float reloadTime = 0.5f;
     RuneHopper mRuneHopper;
-    
+    public bool hasTarget = false;
+    public Vector3 mTarget;
+    Transform t;
+    float shootTimer;
     // Start is called before the first frame update
     void Start()
     {
-        mRuneHopper = new RuneHopper();
-        Debug.Log("I'M ALIVE!!!!!");
+        mRuneHopper = gameObject.GetComponent<RuneHopper>();
+        GameObject.Find("GameController")
+            .GetComponent<FiringController>()
+            .addTower(this);
+        t = gameObject.transform;
+        shootTimer = 0f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (hasTarget)
+        {
+            shoot();
+        }
     }
+    void shoot()
+    {
+        shootTimer -= Time.deltaTime;
+        if(shootTimer <= 0)
+        {
+            shootTimer = reloadTime;
+            Debug.Log("shooting at the enemy");
+        }
+    }
+    public void setTarget(Vector3 target, bool targetInRange)
+    {
+        hasTarget = targetInRange;
+        mTarget = target;
+    }
+    public void setTarget(Vector3 target)
+    {
+        mTarget = target;
+        hasTarget = true;
+        if (Vector3.Distance(mTarget, t.position) > towerRange)
+            hasTarget = false;
+    }
+    public Vector3 getLoc()
+    {
+        return t.position;
+    }
+
 }

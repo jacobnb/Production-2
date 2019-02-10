@@ -11,7 +11,6 @@ public class RuneHopper : MonoBehaviour
     private void Start()
     {
         mRunes = new Queue<Rune>();
-        Debug.Log("Creating Rune Hopper");
     }
 
     public void addRune(Rune rune)

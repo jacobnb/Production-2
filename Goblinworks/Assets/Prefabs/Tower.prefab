@@ -106,8 +106,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adaeb748fc994d1419747e41fe21654a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerRange: 0
-  health: 0
+  towerRange: 5
+  health: 100
+  reloadTime: 0.1
+  hasTarget: 0
+  mTarget: {x: 0, y: 0, z: 0}
 --- !u!114 &5205558900626947672
 MonoBehaviour:
   m_ObjectHideFlags: 0
