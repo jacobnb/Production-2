@@ -108,9 +108,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towerRange: 5
   health: 100
-  reloadTime: 0.1
-  hasTarget: 0
-  mTarget: {x: 0, y: 0, z: 0}
+  reloadTime: 1
+  cannonball: {fileID: 3088677336043022947, guid: cb55a1454664e35449345a064a160b62,
+    type: 3}
 --- !u!114 &5205558900626947672
 MonoBehaviour:
   m_ObjectHideFlags: 0

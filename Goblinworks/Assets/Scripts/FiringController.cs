@@ -18,7 +18,21 @@ public class FiringController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        clearDead();
         setTowerTargets();
+    }
+
+    void clearDead()
+    {
+        for(int i=0; i < enemies.Count; i++)
+        {
+            EnemyScript es = enemies[i];
+            if (es.isDead())
+            {
+                enemies.RemoveAt(i);
+                es.suicide();
+            }
+        }
     }
     void setTowerTargets()
     {

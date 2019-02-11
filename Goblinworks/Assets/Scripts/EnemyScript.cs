@@ -8,6 +8,7 @@ public class EnemyScript : MonoBehaviour
     Transform t;
     [SerializeField]
     float speed = 5;
+    bool isDestroyed = false;
     private void Awake()
     {
         rb = gameObject.GetComponent<Rigidbody>();
@@ -33,5 +34,22 @@ public class EnemyScript : MonoBehaviour
     public Vector3 getLoc()
     {
         return t.position;
+    }
+    public bool isDead()
+    {
+        return isDestroyed;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Cannonball"))
+        {
+            isDestroyed = true;
+            Debug.Log("I'm Dead");
+        }
+    }
+    public void suicide()
+    {
+        Destroy(gameObject);
     }
 }

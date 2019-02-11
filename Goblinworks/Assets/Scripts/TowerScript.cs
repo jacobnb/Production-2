@@ -11,9 +11,11 @@ public class TowerScript : MonoBehaviour
     [SerializeField]
     [Tooltip("Time between shots in seconds")]
     float reloadTime = 0.5f;
+    [SerializeField]
+    GameObject cannonball = null;
     RuneHopper mRuneHopper;
-    public bool hasTarget = false;
-    public Vector3 mTarget;
+    bool hasTarget = false;
+    Vector3 mTarget;
     Transform t;
     float shootTimer;
     // Start is called before the first frame update
@@ -41,7 +43,8 @@ public class TowerScript : MonoBehaviour
         if(shootTimer <= 0)
         {
             shootTimer = reloadTime;
-            Debug.Log("shooting at the enemy");
+            GameObject ball = Instantiate(cannonball, t);
+            ball.GetComponent<CannonballScript>().setTargetAndPosit(mTarget, t.position);
         }
     }
     public void setTarget(Vector3 target, bool targetInRange)
