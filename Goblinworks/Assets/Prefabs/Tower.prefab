@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5597938267771163864}
   - component: {fileID: 2184957637452862725}
   - component: {fileID: 1801822032818314916}
+  - component: {fileID: 5205558900626947672}
   m_Layer: 0
   m_Name: Tower
   m_TagString: Untagged
@@ -103,5 +104,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: adaeb748fc994d1419747e41fe21654a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  towerRange: 5
+  health: 100
+  reloadTime: 1
+  cannonball: {fileID: 3088677336043022947, guid: cb55a1454664e35449345a064a160b62,
+    type: 3}
+--- !u!114 &5205558900626947672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4305032605742307712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8f342e8647b53c42980198545964ab0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

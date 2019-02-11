@@ -26,6 +26,7 @@ public class BaseScript : MonoBehaviour
     [Header("")]
     [SerializeField]
     TextMeshProUGUI goldText = null;
+    Transform goblinFolder = null;
 
     //Passive income, disable later.
     [Header("how many tenths of a second it takes to gain 1 of x")]
@@ -36,7 +37,7 @@ public class BaseScript : MonoBehaviour
 
     [Header("Displays for debugging")]
     //Resource tracking.
-    public List<Rune> mRunes; //move this to a rune tracker class
+    RuneHopper mRuneHopper;
     public float mGold;
     public List<GoblinScript> mGoblins;
 
@@ -50,10 +51,12 @@ public class BaseScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        numPregnantGoblins = 2;
-        mRunes = new List<Rune>();
+        goblinFolder = new GameObject("Goblin Folder").transform;
+        mRuneHopper = gameObject.GetComponent<RuneHopper>();
         mGoblins = new List<GoblinScript>();
         goblinBirthTimer = goblinProcreationRate;
+
+        numPregnantGoblins = 2;
     }
 
     void Update()
@@ -130,7 +133,7 @@ public class BaseScript : MonoBehaviour
 
     GoblinScript goblinConstructor()
     {
-        GameObject babyGoblin = Instantiate(GoblinFab);
+        GameObject babyGoblin = Instantiate(GoblinFab, goblinFolder);
         babyGoblin.transform.position = goblinSpawnPosition;
         return babyGoblin.GetComponent<GoblinScript>();
     }
@@ -155,7 +158,7 @@ public class BaseScript : MonoBehaviour
 
     public void addRune(Rune rune)
     {
-        mRunes.Add(rune);
+        mRuneHopper.addRune(rune);
     }
 
     void updateGoldUI()

@@ -13,15 +13,17 @@ public class EnemySpawnScript : MonoBehaviour
     int numEnemiesPerWave = 5;
     [SerializeField]
     GameObject enemyFab = null;
-    List<EnemyScript> enemies;
     Vector3 enemySpawnPosit;
     float timer = 0f;
+    FiringController firingController = null;
+    Transform enemyFolder = null;
 
     // Start is called before the first frame update
     void Start()
     {
-        enemies = new List<EnemyScript>();
+        enemyFolder = new GameObject("Enemy Folder").transform;
         enemySpawnPosit = transform.position;
+        firingController = GameObject.Find("GameController").GetComponent<FiringController>();
     }
 
     // Update is called once per frame
@@ -42,17 +44,16 @@ public class EnemySpawnScript : MonoBehaviour
 
     void spawnEnemy()
     {
-        GameObject enemy = Instantiate(enemyFab);
+        GameObject enemy = Instantiate(enemyFab, enemyFolder);
         EnemyScript es = enemy.GetComponent<EnemyScript>();
-        es.initPost(getEnemySpawnposit());
-        enemies.Add(es);
+        es.initPosit(getEnemySpawnposit());
+        firingController.addEnemy(es);
 
     }
     Vector3 getEnemySpawnposit()
     {
         Vector3 spawnPosit = enemySpawnPosit;
         spawnPosit.z = Random.Range(enemySpawnPosit.z - spawnMaxZOffset, enemySpawnPosit.z + spawnMaxZOffset);
-        Debug.Log(spawnPosit.z);
         return spawnPosit;
     }
 }
