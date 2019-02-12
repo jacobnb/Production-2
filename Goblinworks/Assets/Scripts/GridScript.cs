@@ -16,6 +16,18 @@ public class GridScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+       
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    [ContextMenu("Create Map")]
+    void CreateMap()
+    {
         // create grid
         grid = new GameObject[gridWidth, gridHeight];
         // get tile width and height
@@ -24,7 +36,7 @@ public class GridScript : MonoBehaviour
         // create grid in game
         for (int j = 0; j < gridWidth; ++j)
         {
-            for(int k = 0; k < gridHeight; ++k)
+            for (int k = 0; k < gridHeight; ++k)
             {
                 GameObject obj = Instantiate(tilePrefab, new Vector3(j * prefabWidth, 0, k * prefabHeight), Quaternion.Euler(90, 0, 0));
                 obj.transform.parent = GameObject.Find("GridObject").transform;
@@ -42,11 +54,5 @@ public class GridScript : MonoBehaviour
         Vector2 center = new Vector2((gridWidth / 2) * prefabWidth, (gridHeight / 2) * prefabHeight);
         Camera.main.transform.position = new Vector3(center.x, 10, center.y - 4f);
         GameObject.Find("PowerSource").transform.position = grid[gridWidth / 2 - 4, gridHeight / 2].transform.position + new Vector3(0.0f, 0.5f, 0.0f);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

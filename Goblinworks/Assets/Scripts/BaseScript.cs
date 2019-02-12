@@ -39,7 +39,8 @@ public class BaseScript : MonoBehaviour
     //Resource tracking.
     RuneHopper mRuneHopper;
     public float mGold;
-    public List<GoblinScript> mGoblins;
+    private List<GameObject> mGoblins;
+    private List<GoblinScript> mGoblinScripts;
 
     float mTimer = 0f;
     //This is used to stop the timer from executing multiple times in a 10th of a second
@@ -53,7 +54,8 @@ public class BaseScript : MonoBehaviour
     {
         goblinFolder = new GameObject("Goblin Folder").transform;
         mRuneHopper = gameObject.GetComponent<RuneHopper>();
-        mGoblins = new List<GoblinScript>();
+        mGoblins = new List<GameObject>();
+        mGoblinScripts = new List<GoblinScript>();
         goblinBirthTimer = goblinProcreationRate;
 
         numPregnantGoblins = 2;
@@ -67,9 +69,9 @@ public class BaseScript : MonoBehaviour
 
     void timer()
     {
-        
+
         mTimer += Time.deltaTime;
-        
+
         int time = (int)(mTimer * timeDivision);
 
         //stop timer from executing multiple times per 10th of a second
@@ -77,12 +79,12 @@ public class BaseScript : MonoBehaviour
             return;
         lastTime = time;
         int shouldReset = 0; //tracks if can reset time.
-        if(time % goldGenRate == 0)
+        if (time % goldGenRate == 0)
         {
             addGold(1);
             shouldReset++;
         }
-        if(time % runesGenRate == 0)
+        if (time % runesGenRate == 0)
         {
             addRune(new Rune());
             shouldReset++;
@@ -92,7 +94,7 @@ public class BaseScript : MonoBehaviour
             spendGold(goblinUpkeepPerSecond * mGoblins.Count, "Goblin Upkeep");
             shouldReset++;
         }
-        if(shouldReset >= 3) //number of if statements
+        if (shouldReset >= 3) //number of if statements
         {
             //This might cause everything to trigger twice
             mTimer = 0f;
@@ -103,11 +105,11 @@ public class BaseScript : MonoBehaviour
     }
     void goblinGestation()
     {
-        if(numPregnantGoblins > 0)
+        if (numPregnantGoblins > 0)
         {
             //make goblins
             goblinBirthTimer -= Time.deltaTime * timeDivision;
-            if(goblinBirthTimer <= 0)
+            if (goblinBirthTimer <= 0)
             {
                 makeGoblin();
                 goblinBirthTimer = goblinProcreationRate;
@@ -126,16 +128,18 @@ public class BaseScript : MonoBehaviour
         spendGold(numGoblins * goblinCost, msg);
     }
     void makeGoblin()
-    { 
+    {
         numPregnantGoblins--;
-        mGoblins.Add(goblinConstructor());
+        GameObject tempGoblin = goblinConstructor();
+        mGoblins.Add(tempGoblin);
+        mGoblinScripts.Add(tempGoblin.GetComponent<GoblinScript>());
     }
 
-    GoblinScript goblinConstructor()
+    GameObject goblinConstructor()
     {
         GameObject babyGoblin = Instantiate(GoblinFab, goblinFolder);
         babyGoblin.transform.position = goblinSpawnPosition;
-        return babyGoblin.GetComponent<GoblinScript>();
+        return babyGoblin;
     }
 
     public bool spendGold(float gold, string purchaseName)
@@ -164,5 +168,10 @@ public class BaseScript : MonoBehaviour
     void updateGoldUI()
     {
         goldText.text = "Gold: " + (int)mGold;
+    }
+
+    public List<GameObject> GetGoblins()
+    {
+        return mGoblins;
     }
 }

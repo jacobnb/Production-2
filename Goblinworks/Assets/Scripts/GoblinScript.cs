@@ -15,7 +15,7 @@ public class GoblinScript : MonoBehaviour
 	    * Magic - throwing runes for now.
 	        * Will probably be spell based in the end. 
 	    * Carry weight.
-      */
+     */
     // Start is called before the first frame update
     void Start()
     {
