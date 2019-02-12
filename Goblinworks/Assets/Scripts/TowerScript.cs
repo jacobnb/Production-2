@@ -37,16 +37,22 @@ public class TowerScript : MonoBehaviour
             shoot();
         }
     }
+
     void shoot()
     {
         shootTimer -= Time.deltaTime;
         if(shootTimer <= 0)
         {
-            shootTimer = reloadTime;
-            GameObject ball = Instantiate(cannonball, t);
-            ball.GetComponent<CannonballScript>().setTargetAndPosit(mTarget, t.position);
+            Rune rune = mRuneHopper.getRune();
+            if (rune != null)
+            {
+                shootTimer = reloadTime;
+                GameObject ball = Instantiate(cannonball, t);
+                ball.GetComponent<CannonballScript>().setTargetAndPosit(mTarget, t.position);
+            }
         }
     }
+
     public void setTarget(Vector3 target, bool targetInRange)
     {
         hasTarget = targetInRange;
