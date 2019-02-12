@@ -1248,6 +1248,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemySpawnRate: 5
   spawnMaxZOffset: 2
-  numEnemiesPerWave: 5
+  numEnemiesPerWave: 0
   enemyFab: {fileID: 7338367816956251354, guid: 47bdf2b3be387f04faeb3adf2f13dfc4,
     type: 3}
