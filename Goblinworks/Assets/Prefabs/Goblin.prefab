@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4430643282637135244}
   - component: {fileID: 3433442702421687045}
   - component: {fileID: 9065998291470192592}
-  - component: {fileID: 95436186474578415}
+  - component: {fileID: 8518690308972564023}
   - component: {fileID: 273205179012653496}
   m_Layer: 0
   m_Name: Goblin
@@ -108,7 +108,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.6289492, y: 0.03750491, z: 0.2864235}
   m_Center: {x: 0, y: 0.029681206, z: 0.091671914}
---- !u!114 &95436186474578415
+--- !u!114 &8518690308972564023
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
