@@ -20,7 +20,7 @@ public class GoblinScript : MonoBehaviour
     // Number of runes/rock the goblin can carry at any point and time
     [SerializeField]
     int runeCarryWeight = 10;
-    int numRunes = 0;
+    List<Rune> runeInventory;
     // Time it takes for the goblin to mine a rock
     [SerializeField]
     float mineTime = 1f;
@@ -55,6 +55,8 @@ public class GoblinScript : MonoBehaviour
         {
             bodyParts.Add(transform.GetChild(0).GetChild(i).GetComponent<MeshRenderer>());
         }
+        runeInventory = new List<Rune>();
+        runeInventory.Capacity = runeCarryWeight;
     }
 
     // Update is called once per frame
@@ -79,14 +81,14 @@ public class GoblinScript : MonoBehaviour
 
     void MineTask()
     {
-        if (runeCarryWeight == numRunes && Vector3.Distance(transform.position, powerSource.transform.position) >= .5)
+        if (runeCarryWeight == runeInventory.Count && Vector3.Distance(transform.position, powerSource.transform.position) >= .5)
         {
             SetRender(true);
             transform.position = Vector3.MoveTowards(transform.position, powerSource.transform.position, moveSpeed * Time.deltaTime);
             // fixed y rotation
             transform.LookAt(new Vector3(powerSource.transform.position.x, transform.position.y, powerSource.transform.position.z));
         }
-        else if(numRunes == 0 && Vector3.Distance(transform.position, miningPost.transform.position) >= .5)
+        else if(runeInventory.Count == 0 && Vector3.Distance(transform.position, miningPost.transform.position) >= .5)
         {
             transform.position = Vector3.MoveTowards(transform.position, miningPost.transform.position, moveSpeed * Time.deltaTime);
             // fixed y rotation
@@ -98,13 +100,11 @@ public class GoblinScript : MonoBehaviour
             miningTimer += Time.deltaTime;
             if (miningTimer >= mineTime)
             {
-                numRunes += miningPower;
-                if (numRunes >= runeCarryWeight)
+                for(int i = 0; i < miningPower; ++i)
                 {
-                    numRunes = runeCarryWeight;
+                    runeInventory.Add(new Rune());
                 }
                 miningTimer = 0.0f;
-                Debug.Log("Mining->Current Runes: " + numRunes.ToString());
             }
         }
     }
@@ -138,5 +138,17 @@ public class GoblinScript : MonoBehaviour
     void SetMining()
     {
         currentTask = (int)Tasks.MINE_TASK;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Hopper")
+        {
+            for(int i = 0; i < runeCarryWeight; ++i)
+            {
+                other.gameObject.GetComponent<RuneHopper>().addRune(runeInventory[i]);
+            }
+            runeInventory.Clear();
+        }
     }
 }
