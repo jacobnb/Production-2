@@ -19,11 +19,11 @@ public class GoblinScript : MonoBehaviour
 
     // Number of runes/rock the goblin can carry at any point and time
     [SerializeField]
-    int runeCarryWeight = 1;
+    int runeCarryWeight = 10;
     int numRunes = 0;
     // Time it takes for the goblin to mine a rock
     [SerializeField]
-    float mineTime = .5f;
+    float mineTime = 1f;
     // How many runes/rocks the gobling mines at once
     [SerializeField]
     int miningPower = 1;
@@ -41,14 +41,20 @@ public class GoblinScript : MonoBehaviour
         RUNNER_TASK = 1,
     }
 
-    GameObject baseObject;
+    GameObject powerSource;
     GameObject miningPost;
+    List<MeshRenderer> bodyParts;
 
     // Start is called before the first frame update
     void Start()
     {
-        baseObject = GameObject.Find("Base");
+        powerSource = GameObject.Find("PowerSource");
         miningPost = GameObject.Find("Mining Post");
+        bodyParts = new List<MeshRenderer>();
+        for(int i = 0; i < transform.GetChild(0).childCount; ++i)
+        {
+            bodyParts.Add(transform.GetChild(0).GetChild(i).GetComponent<MeshRenderer>());
+        }
     }
 
     // Update is called once per frame
@@ -73,19 +79,22 @@ public class GoblinScript : MonoBehaviour
 
     void MineTask()
     {
-        if (runeCarryWeight == numRunes)
+        if (runeCarryWeight == numRunes && Vector3.Distance(transform.position, powerSource.transform.position) >= .5)
         {
-            Debug.Log("Going To Base");
-            Vector3.MoveTowards(transform.position, baseObject.transform.position, moveSpeed);
+            SetRender(true);
+            transform.position = Vector3.MoveTowards(transform.position, powerSource.transform.position, moveSpeed * Time.deltaTime);
+            // fixed y rotation
+            transform.LookAt(new Vector3(powerSource.transform.position.x, transform.position.y, powerSource.transform.position.z));
         }
-        else if(numRunes == 0 && transform.position != miningPost.transform.position)
+        else if(numRunes == 0 && Vector3.Distance(transform.position, miningPost.transform.position) >= .5)
         {
-            Debug.Log("Going To Mine");
-            Vector3.MoveTowards(transform.position, miningPost.transform.position, moveSpeed);
+            transform.position = Vector3.MoveTowards(transform.position, miningPost.transform.position, moveSpeed * Time.deltaTime);
+            // fixed y rotation
+            transform.LookAt(new Vector3(miningPost.transform.position.x, transform.position.y, miningPost.transform.position.z));
         }
         else
         {
-            Debug.Log("Mining");
+            SetRender(false);
             miningTimer += Time.deltaTime;
             if (miningTimer >= mineTime)
             {
@@ -95,6 +104,7 @@ public class GoblinScript : MonoBehaviour
                     numRunes = runeCarryWeight;
                 }
                 miningTimer = 0.0f;
+                Debug.Log("Mining->Current Runes: " + numRunes.ToString());
             }
         }
     }
@@ -102,6 +112,15 @@ public class GoblinScript : MonoBehaviour
     void RunnerTask()
     {
 
+    }
+
+    // Set the whole object to which render
+    void SetRender(bool val)
+    {
+        foreach(MeshRenderer part in bodyParts)
+        {
+            part.enabled = val;
+        }
     }
 
     // set task by name
@@ -113,5 +132,11 @@ public class GoblinScript : MonoBehaviour
     public void SetTask(int taskNum)
     {
         currentTask = taskNum;
+    }
+
+    [ContextMenu("SetMining")]
+    void SetMining()
+    {
+        currentTask = (int)Tasks.MINE_TASK;
     }
 }
