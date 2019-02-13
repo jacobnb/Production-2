@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4430643282637135244}
   - component: {fileID: 3433442702421687045}
   - component: {fileID: 9065998291470192592}
-  - component: {fileID: 95436186474578415}
+  - component: {fileID: 8518690308972564023}
   - component: {fileID: 273205179012653496}
   m_Layer: 0
   m_Name: Goblin
@@ -108,7 +108,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.6289492, y: 0.03750491, z: 0.2864235}
   m_Center: {x: 0, y: 0.029681206, z: 0.091671914}
---- !u!114 &95436186474578415
+--- !u!114 &8518690308972564023
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -120,6 +120,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 333116ef1904724499783eb85b6637ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  runeCarryWeight: 10
+  mineTime: 1
+  miningPower: 1
+  moveSpeed: 1
 --- !u!54 &273205179012653496
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -161,19 +165,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: 72c52e24404d3cd45b486d11004297bc, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: 72c52e24404d3cd45b486d11004297bc, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: 72c52e24404d3cd45b486d11004297bc, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: 72c52e24404d3cd45b486d11004297bc, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: 72c52e24404d3cd45b486d11004297bc, type: 3}
       propertyPath: m_RootOrder
@@ -185,7 +189,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: 72c52e24404d3cd45b486d11004297bc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: 72c52e24404d3cd45b486d11004297bc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z

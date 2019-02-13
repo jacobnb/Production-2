@@ -154,6 +154,7 @@ public class BaseScript : MonoBehaviour
         updateGoldUI();
         return true;
     }
+
     public void addGold(float gold)
     {
         mGold += gold;
