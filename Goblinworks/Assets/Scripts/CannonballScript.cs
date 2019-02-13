@@ -7,7 +7,8 @@ public class CannonballScript : MonoBehaviour
     Vector3 mTarget = Vector3.zero;
     [SerializeField]
     float speed = 0.5f;
-    float explodeRadius = 0.1f; //distance from target where ball explodes
+    [SerializeField]
+    float explodeRadius = 0.2f; //distance from target where ball explodes
 
     float deathTimer = 0.0f; // if in the air for larger than 3s destroy
     float lifetime = 3.0f;
