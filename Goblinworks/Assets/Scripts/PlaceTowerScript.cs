@@ -45,6 +45,10 @@ public class PlaceTowerScript : MonoBehaviour
                 ownTower.transform.Translate(new Vector3(0.0f, 1.0f, 0.0f));
             }
         }
+        if (Input.GetMouseButtonDown(1))
+        {
+            //Spawn a Infuser
+        }
     }
 
     private void OnMouseExit()
