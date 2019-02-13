@@ -33,8 +33,8 @@ public class GoblinScript : MonoBehaviour
     float moveSpeed = 1.0f;
 
     // current task the goblin is assigned
-    int currentTask = -1;
-    enum Tasks
+    Task currentTask = Task.INVALID_TASK;
+    public enum Task
     {
         INVALID_TASK = -1,
         MINE_TASK = 0,
@@ -64,12 +64,12 @@ public class GoblinScript : MonoBehaviour
     {
         switch(currentTask)
         {
-            case (int)Tasks.MINE_TASK:
+            case Task.MINE_TASK:
             {
                 MineTask();
                 break;
             }
-            case (int)Tasks.RUNNER_TASK:
+            case Task.RUNNER_TASK:
             {
                 RunnerTask();
                 break;
@@ -123,21 +123,26 @@ public class GoblinScript : MonoBehaviour
         }
     }
 
-    // set task by name
-    public void SetTask(string taskName)
+    public Task GetTask()
     {
+        return currentTask;
     }
 
     // set task by index
     public void SetTask(int taskNum)
     {
-        currentTask = taskNum;
+        currentTask = (Task)taskNum;
+    }
+
+    public void SetTask(Task task)
+    {
+        currentTask = task;
     }
 
     [ContextMenu("SetMining")]
     void SetMining()
     {
-        currentTask = (int)Tasks.MINE_TASK;
+        currentTask = Task.MINE_TASK;
     }
 
     private void OnTriggerEnter(Collider other)

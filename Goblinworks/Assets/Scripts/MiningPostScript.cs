@@ -9,6 +9,7 @@ public class MiningPostScript : MonoBehaviour
     Material hoverMaterial;
     Material defaultMaterial;
 
+    int unassignedGoblins;
     int numGoblins = 0;
     [SerializeField]
     TextMeshProUGUI text;
@@ -25,6 +26,14 @@ public class MiningPostScript : MonoBehaviour
     void Update()
     {
         
+    }
+
+    private void FixedUpdate()
+    {
+        if (unassignedGoblins > 0)
+        {
+            AssignGoblin();
+        }
     }
 
     private void OnMouseOver()
@@ -45,7 +54,40 @@ public class MiningPostScript : MonoBehaviour
     public void UIConfirm(int num)
     {
         numGoblins += num;
+        unassignedGoblins += num;
         text.text = "Goblins: " + numGoblins.ToString();
-        // delegate an additional goblin
+
+        AssignGoblin();
+    }
+
+    private void AssignGoblin()
+    {
+        // delegate an additional goblin       
+        List<GameObject> goblins = GameObject.Find("Base").GetComponent<BaseScript>().GetGoblins();
+        GoblinScript goblinScript;
+
+        // should be able to just grab the scripts?
+        // check if no one is doing something first (ideally this would be a dictionary in base of who isn't currently doing anything)
+        foreach (GameObject goblin in goblins)
+        {
+            goblinScript = goblin.GetComponent<GoblinScript>();
+            if (goblinScript.GetTask() == GoblinScript.Task.INVALID_TASK)
+            {
+                goblinScript.SetTask(GoblinScript.Task.MINE_TASK);
+                unassignedGoblins--;
+                return;
+            }
+        }
+        // then pull first goblin who isn't mining
+        foreach (GameObject goblin in goblins)
+        {
+            goblinScript = goblin.GetComponent<GoblinScript>();
+            if (goblinScript.GetTask() != GoblinScript.Task.MINE_TASK)
+            {
+                goblinScript.SetTask(GoblinScript.Task.MINE_TASK);
+                unassignedGoblins--;
+                return;
+            }
+        }
     }
 }
