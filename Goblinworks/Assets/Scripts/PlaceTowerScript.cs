@@ -41,8 +41,8 @@ public class PlaceTowerScript : MonoBehaviour
             if (ownTower == null && transform.childCount == 0 && baseScript.spendGold(costOfTower, "Tower"))
             {
                 ownTower = Instantiate(tower, gameObject.transform);
-                ownTower.transform.Rotate(90, 0, 0);
-                ownTower.transform.Translate(new Vector3(0.0f, -1.0f, 0.0f));
+                ownTower.transform.Rotate(-90, 0, 0);
+                ownTower.transform.Translate(new Vector3(0.0f, 1.0f, 0.0f));
             }
         }
     }
