@@ -70,7 +70,6 @@ public class TowerScript : MonoBehaviour
                     rune.fireCharges*colorRunes
                     , rune.earthCharges * colorRunes
                     , rune.waterCharges * colorRunes);
-                    //renderer.getmaterial?
             }
         }
     }
