@@ -27,14 +27,14 @@ RectTransform:
   m_GameObject: {fileID: 796428101513286554}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.04, y: 0.01, z: 1}
+  m_LocalScale: {x: 0.06, y: 0.01, z: 1}
   m_Children: []
   m_Father: {fileID: 714555938354897120}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 2.75}
+  m_AnchoredPosition: {x: 0, y: 2.8}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2213286656540550771
@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 248587957657905324}
   - component: {fileID: 8132229528243485997}
   m_Layer: 0
-  m_Name: TextMeshPro Text
+  m_Name: MouseOver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -104,7 +104,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 714555938354897120}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -139,7 +139,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: '100 Runes
+  m_text: 'tower runes 50/50
 
 '
   m_isRightToLeft: 0
@@ -210,10 +210,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 8132229528243485997}
-    characterCount: 10
+    characterCount: 18
     spriteCount: 0
-    spaceCount: 2
-    wordCount: 2
+    spaceCount: 3
+    wordCount: 4
     linkCount: 0
     lineCount: 1
     pageCount: 1
@@ -266,8 +266,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 2319319733610973437}
   - {fileID: 7240967823378580716}
+  - {fileID: 2319319733610973437}
   m_Father: {fileID: 2584079276678493498}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -460,3 +460,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8f342e8647b53c42980198545964ab0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxNumRunes: 50

@@ -10,6 +10,12 @@ public class Rune
         earthCharges = 0;
         waterCharges = 0;
     }
+    public Rune(int fire, int earth, int water)
+    {
+        fireCharges = fire;
+        earthCharges = earth;
+        waterCharges = water;
+    }
     //these should all default to zero
     public int fireCharges;
     public int earthCharges;

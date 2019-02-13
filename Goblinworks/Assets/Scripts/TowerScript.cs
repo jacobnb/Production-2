@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 public class TowerScript : MonoBehaviour
 {
     [SerializeField]
@@ -18,6 +18,8 @@ public class TowerScript : MonoBehaviour
     Vector3 mTarget;
     Transform t;
     float shootTimer;
+    TextMeshProUGUI mouseOverText;
+    Canvas mouseOver;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,8 +29,21 @@ public class TowerScript : MonoBehaviour
             .addTower(this);
         t = gameObject.transform;
         shootTimer = 0f;
+        mouseOver = gameObject.GetComponentInChildren<Canvas>();
+        mouseOverText = mouseOver.GetComponentInChildren<TextMeshProUGUI>();
     }
 
+    private void OnMouseOver()
+    {
+        mouseOver.enabled = true;
+        mouseOverText.text = "Tower Runes " + 
+            mRuneHopper.getNumRunes() + "/" + 
+            mRuneHopper.getMaxRunes();
+    }
+    private void OnMouseExit()
+    {
+        mouseOver.enabled = false;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -44,11 +59,18 @@ public class TowerScript : MonoBehaviour
         if(shootTimer <= 0)
         {
             Rune rune = mRuneHopper.getRune();
+            float colorRunes = 255f;
             if (rune != null)
             {
                 shootTimer = reloadTime;
                 GameObject ball = Instantiate(cannonball, t);
                 ball.GetComponent<CannonballScript>().setTargetAndPosit(mTarget, t.position);
+                ball.GetComponent<Renderer>().material.color = 
+                    new Color(
+                    rune.fireCharges*colorRunes
+                    , rune.earthCharges * colorRunes
+                    , rune.waterCharges * colorRunes);
+                    //renderer.getmaterial?
             }
         }
     }
