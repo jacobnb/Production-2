@@ -120,4 +120,9 @@ public class StoreScript : MonoBehaviour
             }
         }
     }
+
+    public void DeallocGoblin()
+    {
+        unassignedGoblins++;
+    }
 }

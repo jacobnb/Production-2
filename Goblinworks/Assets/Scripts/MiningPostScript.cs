@@ -86,8 +86,13 @@ public class MiningPostScript : MonoBehaviour
             goblinScript = goblin.GetComponent<GoblinScript>();
             if (goblinScript.GetTask() != GoblinScript.Task.MINE_TASK)
             {
+                if (goblinScript.GetTask() == GoblinScript.Task.SELL_TASK)
+                {
+                    GameObject.Find("SellingPost").GetComponent<StoreScript>().DeallocGoblin();
+                }
                 goblinScript.SetTask(GoblinScript.Task.MINE_TASK);
                 unassignedGoblins--;
+                
                 return;
             }
         }
