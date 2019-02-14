@@ -31,18 +31,15 @@ public class TowerScript : MonoBehaviour
         shootTimer = 0f;
         mouseOver = gameObject.GetComponentInChildren<Canvas>();
         mouseOverText = mouseOver.GetComponentInChildren<TextMeshProUGUI>();
+        mouseOver.enabled = false;
     }
 
-    private void OnMouseOver()
+    private void OnMouseDown()
     {
-        mouseOver.enabled = true;
+        mouseOver.enabled = !mouseOver.enabled;
         mouseOverText.text = "Tower Runes " + 
             mRuneHopper.getNumRunes() + "/" + 
             mRuneHopper.getMaxRunes();
-    }
-    private void OnMouseExit()
-    {
-        mouseOver.enabled = false;
     }
     // Update is called once per frame
     void Update()
