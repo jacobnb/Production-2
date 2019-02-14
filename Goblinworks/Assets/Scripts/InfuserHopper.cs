@@ -7,9 +7,10 @@ public class InfuserHopper : RuneHopper
     Queue<Rune> outGoingRunes;
     [SerializeField]
     int maxNumOutgoingRunes = 50;
-    // Start is called before the first frame update
-    void Start()
+
+    new void Start()
     {
+        base.Start();
         outGoingRunes = new Queue<Rune>();
     }
 
@@ -26,5 +27,17 @@ public class InfuserHopper : RuneHopper
     public int getMaxOutRunes()
     {
         return maxNumOutgoingRunes;
+    }
+    public bool InfuseRune(Rune.TYPE type)
+    {
+        if (mRunes.Count > 0
+          && getNumOutRunes() < maxNumOutgoingRunes)
+        {
+            Rune rune = mRunes.Dequeue();
+            rune.infuse(type);
+            outGoingRunes.Enqueue(rune);
+            return true;
+        }
+        return false;
     }
 }

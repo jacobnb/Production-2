@@ -59,7 +59,7 @@ public class TowerScript : MonoBehaviour
         if(shootTimer <= 0)
         {
             Rune rune = mRuneHopper.getRune();
-            float colorRunes = 255f;
+            float colorRunes = 0.5f;
             if (rune != null)
             {
                 shootTimer = reloadTime;

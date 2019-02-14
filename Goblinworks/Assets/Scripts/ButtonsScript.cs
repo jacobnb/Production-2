@@ -15,7 +15,7 @@ public class ButtonsScript : MonoBehaviour
             Debug.LogError("Couldn't find Base / BaseScript");
     }
 
-    public void fuckAGoblin()
+    public void queueAGoblin()
     {
         baseScript.queueGoblin(1);
     }
