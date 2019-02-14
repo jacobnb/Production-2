@@ -11,7 +11,7 @@ public class CannonballScript : MonoBehaviour
     float explodeRadius = 0.2f; //distance from target where ball explodes
 
     float deathTimer = 0.0f; // if in the air for larger than 3s destroy
-    float lifetime = 3.0f;
+    float lifetime = 1.0f;
 
     // Start is called before the first frame update
     void Start()

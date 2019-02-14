@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Rune
 {
+    public enum TYPE
+    {
+        FIRE, EARTH, WATER
+    }
     public Rune()
     {
         fireCharges = 0;
@@ -16,7 +20,21 @@ public class Rune
         earthCharges = earth;
         waterCharges = water;
     }
-    //these should all default to zero
+    public void infuse(TYPE type)
+    {
+        switch (type)
+        {
+            case TYPE.FIRE:
+                fireCharges++;
+                break;
+            case TYPE.EARTH:
+                earthCharges++;
+                break;
+            case TYPE.WATER:
+                waterCharges++;
+                break;
+        }
+    }
     public int fireCharges;
     public int earthCharges;
     public int waterCharges;

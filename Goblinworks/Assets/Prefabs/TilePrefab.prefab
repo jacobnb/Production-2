@@ -107,4 +107,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   highlightColor: {r: 1, g: 0, b: 0, a: 1}
   tower: {fileID: 4305032605742307712, guid: 42e46d6ce26531b4dadae43605545d22, type: 3}
-  goldObject: {fileID: 0}
+  infuser: {fileID: 1493797677, guid: 35db5ca746cc6e947961fa579d1c5709, type: 3}
+  costOfTower: 5
