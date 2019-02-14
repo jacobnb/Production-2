@@ -37,8 +37,12 @@ public class TowerScript : MonoBehaviour
     private void OnMouseDown()
     {
         mouseOver.enabled = !mouseOver.enabled;
-        mouseOverText.text = "Tower Runes " + 
-            mRuneHopper.getNumRunes() + "/" + 
+        
+    }
+    void updateUI()
+    {
+        mouseOverText.text = "Tower Runes " +
+            mRuneHopper.getNumRunes() + "/" +
             mRuneHopper.getMaxRunes();
     }
     // Update is called once per frame
@@ -48,6 +52,7 @@ public class TowerScript : MonoBehaviour
         {
             shoot();
         }
+        updateUI();
     }
 
     void shoot()

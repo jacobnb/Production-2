@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 public class InfuserScript : MonoBehaviour
 {
     InfuserHopper runeHopper;
@@ -10,14 +10,33 @@ public class InfuserScript : MonoBehaviour
     float infuseTimer;
     [SerializeField]
     Rune.TYPE infuseType = Rune.TYPE.FIRE;
+    TextMeshProUGUI mouseOverText;
+    Canvas mouseOver;
     // Start is called before the first frame update
     void Start()
     {
         runeHopper = gameObject.GetComponent<InfuserHopper>();
         infuseTimer = infuseTime;
         setColor();
+        mouseOver = gameObject.GetComponentInChildren<Canvas>();
+        mouseOverText = mouseOver.GetComponentInChildren<TextMeshProUGUI>();
+        mouseOver.enabled = false;
     }
 
+    private void OnMouseDown()
+    {
+        mouseOver.enabled = !mouseOver.enabled;
+        
+    }
+    void updateUI()
+    {
+        mouseOverText.text = "In Runes: " +
+            runeHopper.getNumRunes() + "/" +
+            runeHopper.getMaxRunes() +
+            "\n" + "Out Runes: " +
+            runeHopper.getNumOutRunes() + "/" +
+            runeHopper.getMaxOutRunes();
+    }
     public void setType(Rune.TYPE type)
     {
         infuseType = type;
@@ -44,6 +63,7 @@ public class InfuserScript : MonoBehaviour
     void Update()
     {
         checkIfCanInfuse();
+        updateUI();
     }
 
     void checkIfCanInfuse()
