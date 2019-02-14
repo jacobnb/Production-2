@@ -8,10 +8,16 @@ public class RuneHopper : MonoBehaviour
     protected Queue<Rune> mRunes;
     [SerializeField]
     protected int maxNumRunes = 50;
-    protected void Start()
+    protected void Awake()
     {
+        //moved from start to awake b/c it was being 
+        // accessed before initialization
         mRunes = new Queue<Rune>();
         testAddRunes();
+    }
+    protected void Start()
+    {
+        
     }
 
     void testAddRunes()

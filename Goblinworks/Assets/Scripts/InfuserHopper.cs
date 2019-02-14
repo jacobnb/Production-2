@@ -7,11 +7,16 @@ public class InfuserHopper : RuneHopper
     Queue<Rune> outGoingRunes;
     [SerializeField]
     int maxNumOutgoingRunes = 50;
-
+    private void Awake()
+    {
+        //moved from start to awake b/c it was being 
+        // accessed by infuser script before initialization
+        base.Awake();
+        outGoingRunes = new Queue<Rune>();
+    }
     new void Start()
     {
-        base.Start();
-        outGoingRunes = new Queue<Rune>();
+        
     }
 
     public Rune GetRune()

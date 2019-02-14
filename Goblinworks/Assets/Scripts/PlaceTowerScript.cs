@@ -11,10 +11,14 @@ public class PlaceTowerScript : MonoBehaviour
 
     [SerializeField]
     private GameObject tower = null;
+    [SerializeField]
+    private GameObject infuser = null;
     private GameObject ownTower = null;
 
     [SerializeField]
     float costOfTower = 5f;
+    [SerializeField]
+    float costOfInfuser = 10f;
 
     private Material objectMaterial;
     BaseScript baseScript = null;
@@ -47,7 +51,12 @@ public class PlaceTowerScript : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(1))
         {
-            //Spawn a Infuser
+            if (ownTower == null && transform.childCount == 0 && baseScript.spendGold(costOfInfuser, "Infuser"))
+            {
+                ownTower = Instantiate(infuser, gameObject.transform);
+                ownTower.transform.Rotate(-90, 0, 0);
+               // ownTower.transform.Translate(new Vector3(0.0f, 0.0f, 0.0f));
+            }
         }
     }
 
