@@ -22,12 +22,15 @@ public class PlaceTowerScript : MonoBehaviour
 
     private Material objectMaterial;
     BaseScript baseScript = null;
+
+    private GameObject towerTracker;
     // Start is called before the first frame update
     void Start()
     {
         objectMaterial = GetComponent<Renderer>().material;
         originalColor = objectMaterial.color;
         baseScript = GameObject.Find("Base").GetComponent<BaseScript>();
+        towerTracker = GameObject.Find("TowerObject");
     }
 
 
@@ -47,6 +50,7 @@ public class PlaceTowerScript : MonoBehaviour
                 ownTower = Instantiate(tower, gameObject.transform);
                 ownTower.transform.Rotate(-90, 0, 0);
                 ownTower.transform.Translate(new Vector3(0.0f, 1.0f, 0.0f));
+                towerTracker.GetComponent<BuildingListScript>().AddBuilding(ownTower);
             }
         }
         if (Input.GetMouseButtonDown(1))

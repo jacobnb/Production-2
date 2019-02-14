@@ -6,6 +6,7 @@ public class RuneHopper : MonoBehaviour
 {
     //Base class to hold runes for towers
     protected Queue<Rune> mRunes;
+    Queue<Rune> mRunes = null;
     [SerializeField]
     protected int maxNumRunes = 50;
     protected void Awake()
@@ -18,6 +19,15 @@ public class RuneHopper : MonoBehaviour
     protected void Start()
     {
         
+    }
+
+    private void Update()
+    {
+        // ugly ass fix for something \\
+        if(mRunes == null)
+        {
+            mRunes = new Queue<Rune>();
+        }
     }
 
     void testAddRunes()
