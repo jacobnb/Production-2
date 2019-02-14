@@ -14,7 +14,7 @@ public class BaseScript : MonoBehaviour
     [Header("Goblin Spawn Info")]
     [SerializeField]
     [Tooltip("How many 10ths of a second it takes for a new goblin to spawn")]
-    int goblinProcreationRate = 50;
+    int goblinSpawnRate = 50;
     [SerializeField]
     int goblinCost = 5;
     [SerializeField]
@@ -46,9 +46,9 @@ public class BaseScript : MonoBehaviour
     //This is used to stop the timer from executing multiple times in a 10th of a second
     int lastTime = -1;
     //Goblin creation queue
-    int numPregnantGoblins;
+    int goblinSpawnQueue;
     //how long until the next goblin spawns.
-    float goblinBirthTimer;
+    float goblinSpawnTimer;
     // Start is called before the first frame update
     void Start()
     {
@@ -56,9 +56,9 @@ public class BaseScript : MonoBehaviour
         mRuneHopper = gameObject.GetComponent<RuneHopper>();
         mGoblins = new List<GameObject>();
         mGoblinScripts = new List<GoblinScript>();
-        goblinBirthTimer = goblinProcreationRate;
+        goblinSpawnTimer = goblinSpawnRate;
 
-        numPregnantGoblins = 2;
+        goblinSpawnQueue = 2;
     }
 
     void Update()
@@ -105,14 +105,14 @@ public class BaseScript : MonoBehaviour
     }
     void goblinGestation()
     {
-        if (numPregnantGoblins > 0)
+        if (goblinSpawnQueue > 0)
         {
             //make goblins
-            goblinBirthTimer -= Time.deltaTime * timeDivision;
-            if (goblinBirthTimer <= 0)
+            goblinSpawnTimer -= Time.deltaTime * timeDivision;
+            if (goblinSpawnTimer <= 0)
             {
                 makeGoblin();
-                goblinBirthTimer = goblinProcreationRate;
+                goblinSpawnTimer = goblinSpawnRate;
             }
         }
     }
@@ -123,13 +123,13 @@ public class BaseScript : MonoBehaviour
         { //if can't afford goblins, reduce numGoblins
             numGoblins--;
         }
-        numPregnantGoblins += numGoblins;
+        goblinSpawnQueue += numGoblins;
         string msg = "Bought " + numGoblins + " Goblins";
         spendGold(numGoblins * goblinCost, msg);
     }
     void makeGoblin()
     {
-        numPregnantGoblins--;
+        goblinSpawnQueue--;
         GameObject tempGoblin = goblinConstructor();
         mGoblins.Add(tempGoblin);
         mGoblinScripts.Add(tempGoblin.GetComponent<GoblinScript>());
