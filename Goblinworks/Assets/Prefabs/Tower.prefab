@@ -352,7 +352,7 @@ GameObject:
   - component: {fileID: 5205558900626947672}
   m_Layer: 0
   m_Name: Tower
-  m_TagString: Untagged
+  m_TagString: Hopper
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -429,9 +429,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5000001
-  m_Height: 1.1464324
+  m_Height: 1.0000002
   m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: -0.4267838, z: -0.00000011920929}
+  m_Center: {x: 0.000000059604645, y: -0.35356772, z: -0.00000011920929}
 --- !u!114 &1801822032818314916
 MonoBehaviour:
   m_ObjectHideFlags: 0

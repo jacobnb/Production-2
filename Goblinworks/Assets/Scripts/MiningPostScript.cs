@@ -57,7 +57,14 @@ public class MiningPostScript : MonoBehaviour
         unassignedGoblins += num;
         text.text = "Goblins: " + numGoblins.ToString();
 
-        AssignGoblin();
+        if(num > 0)
+        {
+            AssignGoblin();
+        }
+        else
+        {
+            RemoveGoblin();
+        }
     }
 
     private void AssignGoblin()
@@ -87,6 +94,26 @@ public class MiningPostScript : MonoBehaviour
                 goblinScript.SetTask(GoblinScript.Task.MINE_TASK);
                 unassignedGoblins--;
                 return;
+            }
+        }
+    }
+
+    void RemoveGoblin()
+    {
+        if(unassignedGoblins < 0)
+        {
+            List<GameObject> goblins = GameObject.Find("Base").GetComponent<BaseScript>().GetGoblins();
+            GoblinScript goblinScript;
+
+            foreach(GameObject goblin in goblins)
+            {
+                goblinScript = goblin.GetComponent<GoblinScript>();
+                if(goblinScript.GetTask() == GoblinScript.Task.MINE_TASK)
+                {
+                    goblinScript.SetTask(GoblinScript.Task.INVALID_TASK);
+                    unassignedGoblins++;
+                    return;
+                }
             }
         }
     }

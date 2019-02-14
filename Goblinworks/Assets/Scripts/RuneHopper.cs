@@ -5,8 +5,7 @@ using UnityEngine;
 public class RuneHopper : MonoBehaviour
 {
     //Base class to hold runes for towers
-    protected Queue<Rune> mRunes;
-    Queue<Rune> mRunes = null;
+    protected Queue<Rune> mRunes = null;
     [SerializeField]
     protected int maxNumRunes = 50;
     protected void Awake()
@@ -55,7 +54,9 @@ public class RuneHopper : MonoBehaviour
     virtual public Rune getRune()
     {
         if (mRunes.Count <= 0)
+        {
             return null;
+        }
         return mRunes.Dequeue();
     }
 

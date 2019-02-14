@@ -40,7 +40,8 @@ public class GoblinScript : MonoBehaviour
         INFUSER_RUNNER_TASK,
     }
     // current task the goblin is assigned
-    Task currentTask = Task.TOWER_RUNNER_TASK;
+    Task currentTask = Task.INVALID_TASK;
+    static bool nextTask = true;
     // current transform the goblin is running to
     GameObject runnerGameObject = null;
 
@@ -67,7 +68,7 @@ public class GoblinScript : MonoBehaviour
         runeInventory.Capacity = runeCarryWeight;
 
         towerTracker = GameObject.Find("TowerObject");
-        infuserTracker = GameObject.Find("InfuserTracker");
+        infuserTracker = GameObject.Find("InfuserObject");
     }
 
     // Update is called once per frame
@@ -75,6 +76,20 @@ public class GoblinScript : MonoBehaviour
     {
         switch(currentTask)
         {
+            case Task.INVALID_TASK:
+            {
+                    if(nextTask)
+                    {
+                        currentTask = Task.TOWER_RUNNER_TASK;
+                        nextTask = !nextTask;
+                    }
+                    else
+                    {
+                        currentTask = Task.INFUSER_RUNNER_TASK;
+                        nextTask = !nextTask;
+                    }
+                    break;
+            }
             case Task.MINE_TASK:
             {
                 MineTask();
@@ -190,15 +205,9 @@ public class GoblinScript : MonoBehaviour
         currentTask = task;
     }
 
-    [ContextMenu("SetMining")]
-    void SetMining()
-    {
-        currentTask = Task.MINE_TASK;
-    }
-
     private void OnTriggerEnter(Collider other)
     {
-        if(runeInventory.Count > 0 && other.tag == "Hopper" && other.name == runnerGameObject.name || runnerGameObject == null)
+        if(runeInventory.Count > 0 && other.tag == "Hopper" && (runnerGameObject == null || other.name == runnerGameObject.name))
         {
             foreach(Rune rune in runeInventory)
             {
@@ -206,9 +215,18 @@ public class GoblinScript : MonoBehaviour
             }
             runeInventory.Clear();            
         }
-        else if(runeInventory.Count == 0)
+        else if(runeInventory.Count == 0 && other.tag == "Hopper" && other.name == "PowerSource" && other.name == runnerGameObject.name)
         {
-
+            Rune rune;
+            for(int i = 0; i < runeInventory.Capacity; ++i)
+            {
+                rune = other.gameObject.GetComponent<RuneHopper>().getRune();
+                if(rune == null)
+                {
+                    return;
+                }
+                runeInventory.Add(rune);
+            }
         }
     }
 }
