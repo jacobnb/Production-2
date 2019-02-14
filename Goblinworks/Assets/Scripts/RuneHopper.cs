@@ -5,13 +5,22 @@ using UnityEngine;
 public class RuneHopper : MonoBehaviour
 {
     //Base class to hold runes for towers
-    Queue<Rune> mRunes;
+    Queue<Rune> mRunes = null;
     [SerializeField]
     int maxNumRunes = 50;
     private void Start()
     {
         mRunes = new Queue<Rune>();
         testAddRunes();
+    }
+
+    private void Update()
+    {
+        // ugly ass fix for something \\
+        if(mRunes == null)
+        {
+            mRunes = new Queue<Rune>();
+        }
     }
 
     void testAddRunes()

@@ -40,12 +40,17 @@ public class GoblinScript : MonoBehaviour
         INFUSER_RUNNER_TASK,
     }
     // current task the goblin is assigned
-    Task currentTask = Task.INVALID_TASK;
+    Task currentTask = Task.TOWER_RUNNER_TASK;
     // current transform the goblin is running to
     GameObject runnerGameObject = null;
 
     GameObject powerSource;
     GameObject miningPost;
+    /// TO DO \\\
+    /// THIS IS MASSIVE TECH DEBT PLEASE FIX ME AS SOON AS POSSIBLE \\\
+    GameObject towerTracker;
+    GameObject infuserTracker;
+
     List<MeshRenderer> bodyParts;
 
     // Start is called before the first frame update
@@ -60,6 +65,9 @@ public class GoblinScript : MonoBehaviour
         }
         runeInventory = new List<Rune>();
         runeInventory.Capacity = runeCarryWeight;
+
+        towerTracker = GameObject.Find("TowerObject");
+        infuserTracker = GameObject.Find("InfuserTracker");
     }
 
     // Update is called once per frame
@@ -92,13 +100,15 @@ public class GoblinScript : MonoBehaviour
         if (runeCarryWeight == runeInventory.Count && Vector3.Distance(transform.position, powerSource.transform.position) >= .5)
         {
             SetRender(true);
-            transform.position = Vector3.MoveTowards(transform.position, powerSource.transform.position, moveSpeed * Time.deltaTime);
+            Vector3 target = new Vector3(powerSource.transform.position.x, transform.position.y, powerSource.transform.position.z);
+            transform.position = Vector3.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
             // fixed y rotation
             transform.LookAt(new Vector3(powerSource.transform.position.x, transform.position.y, powerSource.transform.position.z));
         }
         else if(runeInventory.Count == 0 && Vector3.Distance(transform.position, miningPost.transform.position) >= .5)
         {
-            transform.position = Vector3.MoveTowards(transform.position, miningPost.transform.position, moveSpeed * Time.deltaTime);
+            Vector3 target = new Vector3(miningPost.transform.position.x, transform.position.y, miningPost.transform.position.z);
+            transform.position = Vector3.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
             // fixed y rotation
             transform.LookAt(new Vector3(miningPost.transform.position.x, transform.position.y, miningPost.transform.position.z));
         }
@@ -119,25 +129,39 @@ public class GoblinScript : MonoBehaviour
 
     void RunnerTask()
     {
-        if(Vector3.Distance(transform.position, runnerGameObject.transform.position) >= 5)
+        if(runnerGameObject != null && Vector3.Distance(transform.position, runnerGameObject.transform.position) >= 1.1)
         {
-            transform.position = Vector3.MoveTowards(transform.position, runnerGameObject.transform.position, moveSpeed * Time.deltaTime);
+            Vector3 target = new Vector3(runnerGameObject.transform.position.x, transform.position.y, runnerGameObject.transform.position.z);
+            transform.position = Vector3.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
             transform.LookAt(new Vector3(runnerGameObject.transform.position.x, transform.position.y, runnerGameObject.transform.position.z));
         }
-        else
+        // reached destination
+        else if (runnerGameObject != null && runnerGameObject.name == "PowerSource")
         {
-            // reached destination
-            if(runnerGameObject.name == "PowerSource")
+            if(currentTask == Task.TOWER_RUNNER_TASK)
             {
-                if(currentTask == Task.TOWER_RUNNER_TASK)
-                {
-                    // go to new tower
-                }
-                else if(currentTask == Task.INFUSER_RUNNER_TASK)
-                {
-                    // go to new infuser
-                }
+                // go to new tower
+                runnerGameObject = towerTracker.GetComponent<BuildingListScript>().GetLowBuilding();
             }
+            else if(currentTask == Task.INFUSER_RUNNER_TASK)
+            {
+                // go to new infuser
+                runnerGameObject = infuserTracker.GetComponent<BuildingListScript>().GetLowBuilding();
+            }
+        }
+        else if(runnerGameObject != null && (runnerGameObject.name == "Tower(Clone)" || runnerGameObject.name == "Infuse(Clone)"))
+        {
+            runnerGameObject = powerSource;
+        }
+        else if(currentTask == Task.TOWER_RUNNER_TASK)
+        {
+            // go to new tower
+            runnerGameObject = towerTracker.GetComponent<BuildingListScript>().GetLowBuilding();
+        }
+        else if (currentTask == Task.INFUSER_RUNNER_TASK)
+        {
+            // go to new infuser
+            runnerGameObject = infuserTracker.GetComponent<BuildingListScript>().GetLowBuilding();
         }
     }
 
@@ -174,13 +198,17 @@ public class GoblinScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Hopper")
+        if(runeInventory.Count > 0 && other.tag == "Hopper" && other.name == runnerGameObject.name || runnerGameObject == null)
         {
-            for(int i = 0; i < runeCarryWeight; ++i)
+            foreach(Rune rune in runeInventory)
             {
-                other.gameObject.GetComponent<RuneHopper>().addRune(runeInventory[i]);
+                other.gameObject.GetComponent<RuneHopper>().addRune(rune);
             }
-            runeInventory.Clear();
+            runeInventory.Clear();            
+        }
+        else if(runeInventory.Count == 0)
+        {
+
         }
     }
 }
