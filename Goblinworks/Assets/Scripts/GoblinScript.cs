@@ -38,6 +38,7 @@ public class GoblinScript : MonoBehaviour
         MINE_TASK,
         TOWER_RUNNER_TASK,
         INFUSER_RUNNER_TASK,
+        SELL_TASK,
     }
     // current task the goblin is assigned
     Task currentTask = Task.INVALID_TASK;
@@ -47,6 +48,7 @@ public class GoblinScript : MonoBehaviour
 
     GameObject powerSource;
     GameObject miningPost;
+    GameObject sellingPost;
     /// TO DO \\\
     /// THIS IS MASSIVE TECH DEBT PLEASE FIX ME AS SOON AS POSSIBLE \\\
     GameObject towerTracker;
@@ -59,6 +61,7 @@ public class GoblinScript : MonoBehaviour
     {
         powerSource = GameObject.Find("PowerSource");
         miningPost = GameObject.Find("Mining Post");
+        sellingPost = GameObject.Find("SellingPost");
         bodyParts = new List<MeshRenderer>();
         for(int i = 0; i < transform.GetChild(0).childCount; ++i)
         {
@@ -105,6 +108,11 @@ public class GoblinScript : MonoBehaviour
                 RunnerTask();
                 break;
             }
+            case Task.SELL_TASK:
+            {
+                SellTask();
+                break;
+            }
             default:
                 break;
         }
@@ -118,14 +126,14 @@ public class GoblinScript : MonoBehaviour
             Vector3 target = new Vector3(powerSource.transform.position.x, transform.position.y, powerSource.transform.position.z);
             transform.position = Vector3.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
             // fixed y rotation
-            transform.LookAt(new Vector3(powerSource.transform.position.x, transform.position.y, powerSource.transform.position.z));
+            transform.LookAt(target);
         }
         else if(runeInventory.Count == 0 && Vector3.Distance(transform.position, miningPost.transform.position) >= .5)
         {
             Vector3 target = new Vector3(miningPost.transform.position.x, transform.position.y, miningPost.transform.position.z);
             transform.position = Vector3.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
             // fixed y rotation
-            transform.LookAt(new Vector3(miningPost.transform.position.x, transform.position.y, miningPost.transform.position.z));
+            transform.LookAt(target);
         }
         else
         {
@@ -180,6 +188,24 @@ public class GoblinScript : MonoBehaviour
         }
     }
 
+    void SellTask()
+    {
+        if(runeCarryWeight == runeInventory.Count && Vector3.Distance(transform.position, sellingPost.transform.position) >= .5)
+        {
+            Vector3 target = new Vector3(sellingPost.transform.position.x, transform.position.y, sellingPost.transform.position.z);
+            transform.position = Vector3.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
+            // fixed y rotation
+            transform.LookAt(target);
+        }
+        else if(runeInventory.Count == 0 && Vector3.Distance(transform.position, powerSource.transform.position) >= .5)
+        {
+            Vector3 target = new Vector3(powerSource.transform.position.x, transform.position.y, powerSource.transform.position.z);
+            transform.position = Vector3.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
+            // fixed y rotation
+            transform.LookAt(target);
+        }
+    }
+
     // Set the whole object to which render
     void SetRender(bool val)
     {
@@ -215,7 +241,7 @@ public class GoblinScript : MonoBehaviour
             }
             runeInventory.Clear();            
         }
-        else if(runeInventory.Count == 0 && other.tag == "Hopper" && other.name == "PowerSource" && other.name == runnerGameObject.name)
+        else if(runeInventory.Count == 0 && other.tag == "Hopper" && other.name == "PowerSource" && (Task.SELL_TASK == currentTask || other.name == runnerGameObject.name))
         {
             Rune rune;
             for(int i = 0; i < runeInventory.Capacity; ++i)

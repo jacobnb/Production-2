@@ -81,7 +81,7 @@ public class BaseScript : MonoBehaviour
         int shouldReset = 0; //tracks if can reset time.
         if (time % goldGenRate == 0)
         {
-            addGold(1);
+            //addGold(1);
             shouldReset++;
         }
         if (time % runesGenRate == 0)

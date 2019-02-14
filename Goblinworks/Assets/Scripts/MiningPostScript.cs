@@ -25,11 +25,6 @@ public class MiningPostScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-    }
-
-    private void FixedUpdate()
-    {
         if (unassignedGoblins > 0)
         {
             AssignGoblin();
@@ -116,5 +111,10 @@ public class MiningPostScript : MonoBehaviour
                 }
             }
         }
+    }
+
+    public int GetUnassigned()
+    {
+        return unassignedGoblins;
     }
 }
