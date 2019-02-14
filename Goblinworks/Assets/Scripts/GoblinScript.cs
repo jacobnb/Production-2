@@ -32,14 +32,17 @@ public class GoblinScript : MonoBehaviour
     [SerializeField]
     float moveSpeed = 1.0f;
 
-    // current task the goblin is assigned
-    Task currentTask = Task.INVALID_TASK;
     public enum Task
     {
         INVALID_TASK = -1,
-        MINE_TASK = 0,
-        RUNNER_TASK = 1,
+        MINE_TASK,
+        TOWER_RUNNER_TASK,
+        INFUSER_RUNNER_TASK,
     }
+    // current task the goblin is assigned
+    Task currentTask = Task.INVALID_TASK;
+    // current transform the goblin is running to
+    GameObject runnerGameObject = null;
 
     GameObject powerSource;
     GameObject miningPost;
@@ -69,7 +72,12 @@ public class GoblinScript : MonoBehaviour
                 MineTask();
                 break;
             }
-            case Task.RUNNER_TASK:
+            case Task.TOWER_RUNNER_TASK:
+            {
+                RunnerTask();
+                break;
+            }
+            case Task.INFUSER_RUNNER_TASK:
             {
                 RunnerTask();
                 break;
@@ -111,7 +119,26 @@ public class GoblinScript : MonoBehaviour
 
     void RunnerTask()
     {
-
+        if(Vector3.Distance(transform.position, runnerGameObject.transform.position) >= 5)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, runnerGameObject.transform.position, moveSpeed * Time.deltaTime);
+            transform.LookAt(new Vector3(runnerGameObject.transform.position.x, transform.position.y, runnerGameObject.transform.position.z));
+        }
+        else
+        {
+            // reached destination
+            if(runnerGameObject.name == "PowerSource")
+            {
+                if(currentTask == Task.TOWER_RUNNER_TASK)
+                {
+                    // go to new tower
+                }
+                else if(currentTask == Task.INFUSER_RUNNER_TASK)
+                {
+                    // go to new infuser
+                }
+            }
+        }
     }
 
     // Set the whole object to which render
